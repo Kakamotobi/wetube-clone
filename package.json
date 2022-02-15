@@ -1,0 +1,29 @@
+{
+	"name": "wetube-clone",
+	"version": "1.0.0",
+	"description": "",
+	"scripts": {
+		"dev": "nodemon babel-node server.js"
+	},
+	"repository": {
+		"type": "git",
+		"url": "git+https://github.com/Kakamotobi/wetube-clone.git"
+	},
+	"keywords": [],
+	"author": "Kakamotobi",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/Kakamotobi/wetube-clone/issues"
+	},
+	"homepage": "https://github.com/Kakamotobi/wetube-clone#readme",
+	"dependencies": {
+		"express": "^4.17.2",
+		"morgan": "^1.10.0"
+	},
+	"devDependencies": {
+		"@babel/core": "^7.17.2",
+		"@babel/node": "^7.16.8",
+		"@babel/preset-env": "^7.16.11",
+		"nodemon": "^2.0.15"
+	}
+}
