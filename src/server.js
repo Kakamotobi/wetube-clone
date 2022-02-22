@@ -1,4 +1,5 @@
 import express from "express";
+import ejsMate from "ejs-mate";
 import path from "path";
 import morgan from "morgan";
 import globalRouter from "./routers/globalRouter.js";
@@ -8,6 +9,8 @@ import videosRouter from "./routers/videosRouter.js";
 const PORT = 4000;
 
 const app = express();
+
+app.engine("ejs", ejsMate);
 
 app.set("view engine", "ejs");
 app.set("views", path.join(__dirname, "/views"));

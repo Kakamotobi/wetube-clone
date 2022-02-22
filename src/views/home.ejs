@@ -1,0 +1,8 @@
+<% layout("base.ejs") -%>
+<h2>Trending Videos</h2>
+<div>
+	<% if (trendingVideos.length === 0) { %>
+	<div>Sorry nothing found.</div>
+	<% } else { %> <% for (let video of trendingVideos) { %> <%-
+	include("partials/video.ejs", {video}) %> <% } %> <% } %>
+</div>
