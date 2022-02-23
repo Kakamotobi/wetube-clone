@@ -1,9 +1,9 @@
 <div>
-	<h4><%= video.title %></h4>
+	<h4><a href=<%= `/videos/${video.id}` %>><%= video.title %></a></h4>
 	<ul>
 		<li><%= video.rating %>/5</li>
 		<li><%= video.comments %> comments</li>
 		<li>Posted <%= video.createdAt %></li>
-		<li><%= video.views %> views</li>
+		<li><%= video.views %> <%- video.views === 1 ? "view" : "views" %></li>
 	</ul>
 </div>

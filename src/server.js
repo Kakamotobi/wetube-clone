@@ -17,6 +17,8 @@ app.set("views", path.join(__dirname, "/views"));
 
 app.use(morgan("dev"));
 
+app.use(express.urlencoded({ extended: true }));
+
 app.use("/", globalRouter);
 app.use("/users", usersRouter);
 app.use("/videos", videosRouter);

@@ -1,2 +1,6 @@
 <% layout("base.ejs") -%>
-<h1>Edit Video</h1>
+<h4>Change Title of Video</h4>
+<form method="POST">
+	<input name="title" type="text" value="<%= video.title %>"" required>
+	<button type="submit">Save</button>
+</form>
