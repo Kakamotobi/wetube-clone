@@ -1,9 +1,16 @@
 import express from "express";
-import { watch, getEdit, postEdit } from "../controllers/videosControllers.js";
+import {
+	watch,
+	getEdit,
+	postEdit,
+	getUpload,
+	postUpload,
+} from "../controllers/videosControllers.js";
 
 const videosRouter = express.Router();
 
 videosRouter.get("/:id(\\d+)", watch);
 videosRouter.route("/:id(\\d+)/edit").get(getEdit).post(postEdit);
+videosRouter.route("/upload").get(getUpload).post(postUpload);
 
 export default videosRouter;
