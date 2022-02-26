@@ -1,3 +1,4 @@
+import "./db.js";
 import express from "express";
 import ejsMate from "ejs-mate";
 import path from "path";
