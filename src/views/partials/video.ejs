@@ -2,5 +2,10 @@
 	<h4><a href=<%= `/videos/${video.id}` %>><%= video.title %></a></h4>
 	<p><%= video.description %></p>
 	<small><%= video.createdAt %></small>
+	<ul>
+		<% for (let hashtag of video.hashtags) { %>
+			<li><%= hashtag %></li>
+		<% } %>
+	</ul>
 	<hr>
 </div>
