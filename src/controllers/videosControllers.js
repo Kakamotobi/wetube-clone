@@ -5,9 +5,10 @@ export const home = async (req, res) => {
 	return res.render("home.ejs", { pageTitle: "Home", videos });
 };
 
-export const watch = (req, res) => {
+export const watch = async (req, res) => {
 	const { id } = req.params;
-	return res.render("watch.ejs", { pageTitle: `Watching` });
+	const video = await Video.findById(id);
+	return res.render("watch.ejs", { pageTitle: video.title, video });
 };
 
 export const getEdit = (req, res) => {
@@ -22,10 +23,23 @@ export const postEdit = (req, res) => {
 };
 
 export const getUpload = (req, res) => {
-	return res.render("upload.ejs", { pageTitle: "Upload Video" });
+	return res.render("upload.ejs", { pageTitle: "Upload Video", errMsg: null });
 };
 
-export const postUpload = (req, res) => {
-	const { title } = req.body;
-	return res.redirect("/");
+export const postUpload = async (req, res) => {
+	const { title, description, hashtags } = req.body;
+	try {
+		await Video.create({
+			title,
+			description,
+			hashtags: hashtags.split(",").map((tag) => `#${tag}`),
+		});
+		return res.redirect("/");
+	} catch (err) {
+		console.log(err);
+		return res.render("upload.ejs", {
+			pageTitle: "Upload Video",
+			errMsg: err._message,
+		});
+	}
 };

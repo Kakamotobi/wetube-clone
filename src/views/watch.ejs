@@ -1,5 +1,7 @@
 <% layout("base.ejs") -%>
-<h3>
-	<h3><%= video.views %> <%- video.views === 1 ? "view" : "views" %></h3>
-</h3>
+
+<div>
+	<p><%= video.description %></p>
+	<small><%= video.createdAt %></small>
+</div>
 <a href= <%= `${video.id}/edit` %>>Edit Video</a>
