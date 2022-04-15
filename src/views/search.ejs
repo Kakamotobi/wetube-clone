@@ -1,0 +1,12 @@
+<% layout("base.ejs") -%>
+
+<form method="GET" action="">
+	<input type="text" placeholder="Search by Title" name="keyword" />
+	<button type="submit">Search</button>
+</form>
+
+<div>
+	<% for (let video of videos) { %>
+		<%- include("partials/video.ejs", { video })%> 
+	<% } %>
+</div>

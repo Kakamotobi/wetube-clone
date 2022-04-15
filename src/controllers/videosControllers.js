@@ -1,8 +1,21 @@
 import Video from "../models/Video.js";
 
 export const home = async (req, res) => {
-	const videos = await Video.find({});
+	const videos = await Video.find({}).sort({ createdAt: "desc" });
 	return res.render("home.ejs", { pageTitle: "Home", videos });
+};
+
+export const search = async (req, res) => {
+	const { keyword } = req.query;
+	let videos = [];
+	if (keyword) {
+		videos = await Video.find({
+			title: {
+				$regex: new RegExp(keyword, "i"),
+			},
+		});
+	}
+	return res.render("search.ejs", { pageTitle: "Search", videos });
 };
 
 export const watch = async (req, res) => {
