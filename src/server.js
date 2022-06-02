@@ -2,7 +2,7 @@ import express from "express";
 import ejsMate from "ejs-mate";
 import path from "path";
 import morgan from "morgan";
-import globalRouter from "./routers/globalRouter.js";
+import rootRouter from "./routers/rootRouter.js";
 import usersRouter from "./routers/usersRouter.js";
 import videosRouter from "./routers/videosRouter.js";
 
@@ -17,7 +17,7 @@ app.use(morgan("dev"));
 
 app.use(express.urlencoded({ extended: true }));
 
-app.use("/", globalRouter);
+app.use("/", rootRouter);
 app.use("/users", usersRouter);
 app.use("/videos", videosRouter);
 
