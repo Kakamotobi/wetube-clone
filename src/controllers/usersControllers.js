@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 
 export const getJoin = (req, res) => {
-	return res.render("join.ejs", { pageTitle: "Join", errorMsg: "" });
+	return res.render("join.ejs", { pageTitle: "Join", errorMsg: null });
 };
 
 export const postJoin = async (req, res) => {
@@ -10,7 +10,7 @@ export const postJoin = async (req, res) => {
 	const pageTitle = "Join";
 
 	if (password !== passwordConfirm) {
-		return res.render("join", {
+		return res.status(400).render("join", {
 			pageTitle,
 			errorMsg: "Passwords do not match.",
 		});
@@ -18,7 +18,7 @@ export const postJoin = async (req, res) => {
 
 	const userExists = await User.exists({ $or: [{ email }, { username }] });
 	if (userExists) {
-		return res.render("join", {
+		return res.status(400).render("join", {
 			pageTitle,
 			errorMsg: "This email or username is already taken.",
 		});
