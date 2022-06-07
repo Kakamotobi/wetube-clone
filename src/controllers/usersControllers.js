@@ -51,6 +51,7 @@ export const postLogin = async (req, res) => {
 	const pageTitle = "Log In";
 
 	const user = await User.findOne({ username });
+
 	if (!user) {
 		return res.status(400).render("login", {
 			pageTitle,
@@ -66,7 +67,12 @@ export const postLogin = async (req, res) => {
 		});
 	}
 
-	console.log("Log user in!");
+	// Point of Session Initialization (because of session configs).
+	// Log user in (client to server). Now the session has this information.
+	req.session.isLoggedIn = true;
+	req.session.user = user;
+
+	console.log("Session object has been updated!");
 
 	return res.redirect("/");
 };
