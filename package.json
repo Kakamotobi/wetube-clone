@@ -24,7 +24,8 @@
 		"ejs-mate": "^3.0.0",
 		"express": "^4.17.2",
 		"express-session": "^1.17.3",
-		"mongoose": "^6.2.3"
+		"mongoose": "^6.2.3",
+		"node-fetch": "^2.6.1"
 	},
 	"devDependencies": {
 		"@babel/core": "^7.17.2",

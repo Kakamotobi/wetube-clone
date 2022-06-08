@@ -1,15 +1,16 @@
 <% layout("base.ejs") -%> <% if (errorMsg) { %>
-  <span><%= errorMsg %></span>
-  <% } %>
-  
-  <form method="POST">
-    <input name="username" placeholder="Username" type="text" required />
-    <input name="password" placeholder="Password" type="password" required />
-    <button type="submit">Log In</button>
-  </form>
-  <hr />
-  <div>
-    <span>Don't have an account? </span>
-    <a href="/join">Create Account &rarr;</a>
-  </div>
-  
+<span><%= errorMsg %></span>
+<% } %>
+
+<form method="POST">
+	<input name="username" placeholder="Username" type="text" required />
+	<input name="password" placeholder="Password" type="password" required />
+	<button type="submit">Log In</button>
+	<br />
+	<a href="/users/github/start">Continue with GitHub</a>
+</form>
+<hr />
+<div>
+	<span>Don't have an account? </span>
+	<a href="/join">Create Account &rarr;</a>
+</div>
