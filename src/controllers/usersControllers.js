@@ -51,7 +51,8 @@ export const postLogin = async (req, res) => {
 	const { username, password } = req.body;
 	const pageTitle = "Log In";
 
-	const user = await User.findOne({ username });
+	// Find user with password (socialOnly: false).
+	const user = await User.findOne({ username, socialOnly: false });
 
 	if (!user) {
 		return res.status(400).render("login", {
@@ -78,14 +79,6 @@ export const postLogin = async (req, res) => {
 	return res.redirect("/");
 };
 
-export const logout = (req, res) => res.send("logout");
-
-export const view = (req, res) => res.send("view user");
-
-export const edit = (req, res) => res.send("edit account");
-
-export const deleteAccount = (req, res) => res.send("delete account");
-
 export const startGitHubLogin = (req, res) => {
 	const baseUrl = "https://github.com/login/oauth/authorize";
 	const config = {
@@ -95,6 +88,7 @@ export const startGitHubLogin = (req, res) => {
 	};
 	const params = new URLSearchParams(config).toString();
 	const url = `${baseUrl}?${params}`;
+	// Send user to GitHub.
 	return res.redirect(url);
 };
 
@@ -118,7 +112,7 @@ export const finishGitHubLogin = async (req, res) => {
 		})
 	).json();
 
-	// Use access token to access user data.
+	// Use access token to access user's GitHub data.
 	if ("access_token" in tokenResponse) {
 		const { access_token } = tokenResponse;
 		const apiUrl = "https://api.github.com";
@@ -132,7 +126,7 @@ export const finishGitHubLogin = async (req, res) => {
 			})
 		).json();
 
-		// Get user email entries in their GitHub
+		// Get user email entries in their GitHub.
 		const userEmailsData = await (
 			await fetch(`${apiUrl}/user/emails`, {
 				headers: {
@@ -140,7 +134,6 @@ export const finishGitHubLogin = async (req, res) => {
 				},
 			})
 		).json();
-		console.log(userEmailsData);
 
 		// Find user's email that is primary and verified.
 		const emailObj = userEmailsData.find(
@@ -148,30 +141,40 @@ export const finishGitHubLogin = async (req, res) => {
 		);
 
 		if (emailObj) {
-			const existingUser = await User.findOne({ email: emailObj.email });
-			// If the email is in the DB (for any OAuth provider), log the user in.
-			if (existingUser) {
-				req.session.isLoggedIn = true;
-				req.session.user = existingUser;
-				return res.redirect("/");
-			} else {
-				// If no user by that email, create account.
-				const user = await User.create({
+			// Search for email in DB.
+			let user = await User.findOne({ email: emailObj.email });
+			// If no user by that email, create account.
+			if (!user) {
+				user = await User.create({
 					name: userData.name,
 					username: userData.login,
 					email: emailObj.email,
 					password: "",
-					socialOnly: true,
 					location: userData.location,
+					socialOnly: true,
+					avatarUrl: userData.avater_url,
 				});
-				req.session.isLoggedIn = true;
-				req.session.user = user;
-				return res.redirect("/");
 			}
+			// Log the user in.
+			req.session.isLoggedIn = true;
+			req.session.user = user;
+			return res.redirect("/");
 		} else {
+			// need to set notification (no verified email in user's GitHub)
 			return res.redirect("/login");
 		}
 	} else {
 		return res.redirect("/login");
 	}
 };
+
+export const logout = (req, res) => {
+	req.session.destroy();
+	return res.redirect("/");
+};
+
+export const view = (req, res) => res.send("view user");
+
+export const edit = (req, res) => res.send("edit account");
+
+export const deleteAccount = (req, res) => res.send("delete account");
