@@ -1,0 +1,38 @@
+<% layout("base.ejs") -%>
+
+<% if (errorMsg) { %>
+<span><%= errorMsg %></span>
+<% } %>
+
+<form method="POST">
+	<input
+		name="name"
+		placeholder="Name"
+		type="text"
+		value="<%= loggedInUser.name %>"
+		required
+	/>
+	<input
+		name="email"
+		placeholder="Email"
+		type="email"
+		value="<%= loggedInUser.email %>"
+		required
+	/>
+	<input
+		name="username"
+		placeholder="Username"
+		type="text"
+		value="<%= loggedInUser.username %>"
+		required
+	/>
+	<input
+		name="location"
+		placeholder="Location"
+		type="text"
+		value="<%= loggedInUser.location %>"
+	/>
+	<button type="submit">Update Profile</button>
+	<hr />
+	<a href="change-password">Change Password</a>
+</form>
