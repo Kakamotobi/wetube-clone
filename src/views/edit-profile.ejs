@@ -4,7 +4,16 @@
 <span><%= errorMsg %></span>
 <% } %>
 
-<form method="POST">
+<img
+	src="/<%= loggedInUser.avatarUrl%>"
+	alt="Avatar"
+	width="100px"
+	,
+	height="100px"
+/>
+<form method="POST" enctype="multipart/form-data">
+	<label for="avatar">Avatar</label>
+	<input name="avatar" id="avatar" type="file" accept="image/*" />
 	<input
 		name="name"
 		placeholder="Name"

@@ -9,6 +9,7 @@ export const getJoin = (req, res) => {
 export const postJoin = async (req, res) => {
 	const { name, email, username, password, passwordConfirm, location } =
 		req.body;
+
 	const pageTitle = "Join";
 
 	if (password !== passwordConfirm) {
@@ -184,8 +185,9 @@ export const postEdit = async (req, res) => {
 	const {
 		body: { name, email, username, location },
 		session: {
-			user: { _id },
+			user: { _id, avatarUrl },
 		},
+		file,
 	} = req;
 
 	// Find out if a different user already has the username or email.
@@ -204,7 +206,7 @@ export const postEdit = async (req, res) => {
 	try {
 		const updatedUser = await User.findByIdAndUpdate(
 			_id,
-			{ name, email, username, location },
+			{ avatarUrl: file?.path ?? avatarUrl, name, email, username, location },
 			{ new: true }
 		);
 
