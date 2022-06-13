@@ -184,26 +184,21 @@ export const postEdit = async (req, res) => {
 	const {
 		body: { name, email, username, location },
 		session: {
-			user: { _id, email: sessionEmail, username: sessionUsername },
+			user: { _id },
 		},
 	} = req;
 
-	const searchParams = [];
+	// Find out if a different user already has the username or email.
+	const alreadyExists = await User.exists({
+		_id: { $ne: { _id } },
+		$or: [{ username }, { email }],
+	});
 
-	// Check what changes were made.
-	if (username !== sessionUsername) searchParams.push({ username });
-	if (email !== sessionEmail) searchParams.push({ email });
-
-	// If there were changes.
-	if (searchParams.length) {
-		const existingUser = await User.findOne({ $or: searchParams });
-		// If username or email has already been taken by another user.
-		if (existingUser && existingUser._id.toString() !== _id) {
-			return res.status(400).render("edit-profile", {
-				pageTitle: "Edit Profile",
-				errorMsg: "This username or email is already taken.",
-			});
-		}
+	if (alreadyExists) {
+		return res.status(400).render("edit-profile", {
+			pageTitle: "Edit Profile",
+			errorMsg: "This username or email is already taken.",
+		});
 	}
 
 	try {
@@ -241,19 +236,19 @@ export const postChangePassword = async (req, res) => {
 			user: { _id, password },
 		},
 	} = req;
-	
-	const ok = await bcrypt.compare(oldPassword, password);
-	if (!ok) {
+
+	const isAuthorized = await bcrypt.compare(oldPassword, password);
+	if (!isAuthorized) {
 		return res.status(400).render("change-password", {
 			pageTitle: "Change Password",
-			errorMsg: "The old password is incorrect."
+			errorMsg: "The old password is incorrect.",
 		});
 	}
 
 	if (newPassword !== confirmPassword) {
 		return res.status(400).render("change-password", {
 			pageTitle: "Change Password",
-			errorMsg: "Passwords do not match."
+			errorMsg: "Passwords do not match.",
 		});
 	}
 
