@@ -61,21 +61,28 @@ export const deleteVideo = async (req, res) => {
 };
 
 export const getUpload = (req, res) => {
-	return res.render("upload.ejs", { pageTitle: "Upload Video", errMsg: null });
+	return res.render("upload-video.ejs", {
+		pageTitle: "Upload Video",
+		errMsg: null,
+	});
 };
 
 export const postUpload = async (req, res) => {
-	const { title, description, hashtags } = req.body;
+	const {
+		body: { title, description, hashtags },
+		file: { path: fileUrl },
+	} = req;
+
 	try {
 		await Video.create({
+			fileUrl,
 			title,
 			description,
 			hashtags: Video.formatHashtags(hashtags),
 		});
 		return res.redirect("/");
 	} catch (err) {
-		console.log(err);
-		return res.status(400).render("upload.ejs", {
+		return res.status(400).render("upload-video.ejs", {
 			pageTitle: "Upload Video",
 			errMsg: err._message,
 		});

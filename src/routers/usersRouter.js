@@ -2,7 +2,7 @@ import express from "express";
 import {
 	protectorMiddleware,
 	publicOnlyMiddleware,
-	uploadFilesMiddleware,
+	avatarUploadMiddleware,
 } from "../middlewares.js";
 import {
 	logout,
@@ -25,7 +25,7 @@ usersRouter
 	.route("/edit")
 	.all(protectorMiddleware)
 	.get(getEdit)
-	.post(uploadFilesMiddleware.single("avatar"), postEdit);
+	.post(avatarUploadMiddleware.single("avatar"), postEdit);
 usersRouter
 	.route("/change-password")
 	.all(protectorMiddleware)

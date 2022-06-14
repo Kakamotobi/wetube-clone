@@ -1,5 +1,5 @@
 import express from "express";
-import { protectorMiddleware } from "../middlewares.js";
+import { protectorMiddleware, videoUploadMiddleware } from "../middlewares.js";
 import {
 	watch,
 	getEdit,
@@ -25,6 +25,6 @@ videosRouter
 	.route("/upload")
 	.all(protectorMiddleware)
 	.get(getUpload)
-	.post(postUpload);
+	.post(videoUploadMiddleware.single("video"), postUpload);
 
 export default videosRouter;
