@@ -75,8 +75,6 @@ export const postLogin = async (req, res) => {
 	req.session.isLoggedIn = true;
 	req.session.user = user;
 
-	console.log("Session object has been updated!");
-
 	return res.redirect("/");
 };
 
@@ -266,6 +264,18 @@ export const postChangePassword = async (req, res) => {
 	return res.redirect("/users/logout");
 };
 
-export const view = (req, res) => res.send("view user");
+export const view = async (req, res) => {
+	const { id } = req.params;
+	const user = await User.findById(id).populate("videos");
+
+	if (!user) {
+		return res.status(404).render("404", { pageTitle: "User not found" });
+	}
+
+	return res.render("view-profile", {
+		pageTitle: user.name,
+		user,
+	});
+};
 
 export const deleteAccount = (req, res) => res.send("delete account");

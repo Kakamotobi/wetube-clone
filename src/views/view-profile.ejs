@@ -1,0 +1,11 @@
+<% layout("base.ejs") -%>
+
+<div>
+	<% if (user.videos.length === 0) { %>
+		<div>Sorry nothing found.</div>
+	<% } else { %> 
+		<% for (let video of user.videos) { %> <%-
+			include("partials/video.ejs", {video}) %>
+		<% } %>
+	<% } %>
+</div>

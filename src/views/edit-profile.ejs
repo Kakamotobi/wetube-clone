@@ -4,6 +4,7 @@
 <span><%= errorMsg %></span>
 <% } %>
 
+<% if (loggedInUser.avatarUrl) { %>
 <img
 	src="/<%= loggedInUser.avatarUrl%>"
 	alt="Avatar"
@@ -11,6 +12,8 @@
 	,
 	height="100px"
 />
+<% } %>
+
 <form method="POST" enctype="multipart/form-data">
 	<label for="avatar">Avatar</label>
 	<input name="avatar" id="avatar" type="file" accept="image/*" />
