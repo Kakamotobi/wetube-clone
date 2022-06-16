@@ -1,0 +1,20 @@
+.video-partial {
+	.video-partial__thumbnail {
+		height: 140px;
+		width: 100%;
+		background-color: ivory;
+	}
+
+	.video-partial__data {
+		padding: 0 15px;
+		.video-partial__title {
+			margin-top: 10px;
+			display: block;
+			font-size: 18px;
+		}
+		.video-partial__meta {
+      margin-top: 5px;
+			font-size: 12px;
+		}
+	}
+}

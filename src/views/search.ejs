@@ -1,12 +1,18 @@
 <% layout("base.ejs") -%>
 
-<form method="GET" action="">
+<form method="GET" class="search__form">
 	<input type="text" placeholder="Search by Title" name="keyword" />
-	<button type="submit">Search</button>
+	<button type="submit"><i class="fas fa-search"></i></button>
 </form>
 
-<div>
-	<% for (let video of videos) { %>
-		<%- include("partials/video.ejs", { video })%> 
+<div class="videos-grid">
+	<% if (videos) { %>
+		<% for (let video of videos) { %>
+			<%- include("partials/video.ejs", { video })%> 
+		<% } %>
+	<% } else { %>
+		<span class="empty__message">
+			Sorry. No videos found.
+		</span>
 	<% } %>
 </div>

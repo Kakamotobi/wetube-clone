@@ -1,7 +1,10 @@
 <% layout("base.ejs") -%>
-<div>
+
+<div class="videos-grid">
 	<% if (videos.length === 0) { %>
-		<div>Sorry nothing found.</div>
+		<span class="empty__message">
+			Sorry. No videos found.
+		</span>
 	<% } else { %> 
 		<% for (let video of videos) { %> <%-
 			include("partials/video.ejs", {video}) %>

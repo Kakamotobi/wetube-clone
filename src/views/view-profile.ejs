@@ -1,8 +1,15 @@
 <% layout("base.ejs") -%>
 
-<div>
+<div class="profile__data">
+	<img class="avatar" src="/<%= user.avatarUrl %>" alt="Profile picture">
+	<h3><%= user.name %></h3>
+</div>
+
+<div class="videos-grid">
 	<% if (user.videos.length === 0) { %>
-		<div>Sorry nothing found.</div>
+		<span class="empty__message">
+			Sorry. No videos found.
+		</span>
 	<% } else { %> 
 		<% for (let video of user.videos) { %> <%-
 			include("partials/video.ejs", {video}) %>

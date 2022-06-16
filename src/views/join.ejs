@@ -15,9 +15,10 @@
 	/>
 	<input name="location" placeholder="Location" type="text" />
 	<button type="submit">Join</button>
+	<%- include("partials/social-login.ejs") %>
 </form>
-<hr />
-<div>
+
+<div class="auth-switch">
 	<span>Already have an account? </span>
 	<a href="/login">Log In &rarr;</a>
 </div>

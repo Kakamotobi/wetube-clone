@@ -1,17 +1,5 @@
-<% layout("base.ejs") -%>
-
-<% if (errorMsg) { %>
+<% layout("base.ejs") -%> <% if (errorMsg) { %>
 <span><%= errorMsg %></span>
-<% } %>
-
-<% if (loggedInUser.avatarUrl) { %>
-<img
-	src="/<%= loggedInUser.avatarUrl%>"
-	alt="Avatar"
-	width="100px"
-	,
-	height="100px"
-/>
 <% } %>
 
 <form method="POST" enctype="multipart/form-data">
@@ -45,6 +33,10 @@
 		value="<%= loggedInUser.location %>"
 	/>
 	<button type="submit">Update Profile</button>
-	<hr />
-	<a href="change-password">Change Password</a>
+
+	<% if (!loggedInUser.socialOnly) { %>
+	<div class="edit-profile__password">
+		<a href="change-password">Change Password</a>
+	</div>
+	<% } %>
 </form>

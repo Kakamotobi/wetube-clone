@@ -6,11 +6,10 @@
 	<input name="username" placeholder="Username" type="text" required />
 	<input name="password" placeholder="Password" type="password" required />
 	<button type="submit">Log In</button>
-	<br />
-	<a href="/users/github/start">Continue with GitHub</a>
+	<%- include("partials/social-login.ejs") %>
 </form>
-<hr />
-<div>
+
+<div class="auth-switch">
 	<span>Don't have an account? </span>
 	<a href="/join">Create Account &rarr;</a>
 </div>

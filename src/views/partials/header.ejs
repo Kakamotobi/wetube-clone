@@ -1,0 +1,23 @@
+<header>
+	<a href="/" class="header__logo"><i class="fa-brands fa-youtube"></i></a>
+	<nav>
+		<ul>
+			<li>
+				<a href="/search"><i class="fas fa-search"></i></a>
+			</li>
+			<% if (isLoggedIn) { %>
+			<li><a href="/videos/upload">Upload Video</a></li>
+			<li><a href="/users/edit">Edit Profile</a></li>
+			<li><a href="/users/logout">Logout</a></li>
+			<li>
+				<a href="/users/<%= loggedInUser._id %>">
+					<img class="header__avatar" src="/<%= loggedInUser.avatarUrl %>" alt="Profile Picture" />
+				</a>
+			</li>
+			<% } else { %>
+			<li><a href="/login">Login</a></li>
+			<li><a href="/join" class="header__btn">Join</a></li>
+			<% } %>
+		</ul>
+	</nav>
+</header>
