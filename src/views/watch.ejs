@@ -1,6 +1,40 @@
 <% layout("base.ejs") -%>
 
-<video src="/<%= video.fileUrl %>" controls width="500px" height="400px"></video>
+<div id="video-container">
+	<video src="/<%= video.fileUrl %>" width="500px" height="400px"></video>
+
+	<div id="video-controls" class="video-controls">
+		<div class="video-controls__play">
+			<span id="play" class="video-controls__play-btn">
+				<i class="fas fa-play"></i>
+			</span>
+			<div class="video-controls__time">
+				<span id="current-time">0:00</span>
+				<span> / </span>
+				<span id="total-time">0:00</span>
+			</div>
+		</div>
+		<input
+			id="timeline"
+			class="video-controls__timeline"
+			type="range"
+			value="0"
+			min="0"
+			step="1"
+		/>
+		<div class="video-controls__volume">
+			<input id="volume" type="range" value="1" min="0" max="1" step="any" />
+			<span id="mute">
+				<i class="fas fa-volume-up"></i>
+			</span>
+		</div>
+		<div>
+			<span id="full-screen">
+				<i class="fas fa-expand"></i>
+			</span>
+		</div>
+	</div>
+</div>
 
 <div>
 	<p><%= video.description %></p>
@@ -8,13 +42,14 @@
 </div>
 
 <div>
-	<small>Uploaded by 
+	<small
+		>Uploaded by
 		<a href="/users/<%= video.owner._id%>"><%= video.owner.name %></a>
 	</small>
 </div>
 
 <% if (String(video.owner._id) === String(loggedInUser._id)) { %>
-<a href= <%= `${video.id}/edit` %>>Edit Video</a>
-<br>
-<a href= <%= `${video.id}/delete` %>>Delete Video</a>
-<% } %>
+<a href="<%= video.id %>/edit">Edit Video</a>
+<br />
+<a href="<%= video.id %>/delete">Delete Video</a>
+<% } %> <% block("scripts").append("<script src='/static/js/videoPlayer.js'></script>") %>
