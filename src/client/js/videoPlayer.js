@@ -56,7 +56,7 @@ const handleMouseLeave = () => {
 };
 
 // Play Button
-const handlePlayClick = (evt) => {
+const handlePlay = (evt) => {
 	if (video.paused === true) video.play();
 	else video.pause();
 
@@ -115,11 +115,15 @@ const handleTimelineChange = (evt) => {
 	video.currentTime = value;
 };
 
+document.addEventListener("keydown", (evt) => {
+	if (evt.code === "Space") handlePlay();
+});
 video.addEventListener("loadeddata", handleLoadedData);
 video.addEventListener("timeupdate", handleTimeUpdate);
+video.addEventListener("click", handlePlay);
 videoContainer.addEventListener("mousemove", handleMouseMove);
 videoContainer.addEventListener("mouseleave", handleMouseLeave);
-playBtn.addEventListener("click", handlePlayClick);
+playBtn.addEventListener("click", handlePlay);
 muteBtn.addEventListener("click", handleMuteClick);
 volumeRange.addEventListener("input", handleVolumeChange);
 fullScreenBtn.addEventListener("click", handleFullScreen);
