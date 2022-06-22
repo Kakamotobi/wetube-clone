@@ -1,8 +1,13 @@
 <% layout("base.ejs") -%>
 
+<div>
+	<video id="preview"></video>
+	<button id="start-btn">Start Recording</button>
+</div>
+
 <% if (errMsg) { %>
-<span><%= errMsg %></span>
-<% } %>
+	<span><%= errMsg %></span>
+	<% } %>
 
 <form method="POST" enctype="multipart/form-data">
 	<label for="video">Video File</label>
@@ -23,3 +28,5 @@
 	/>
 	<button type="submit">Upload Video</button>
 </form>
+
+<% block("scripts").append("<script src='/static/js/recorder.js'></script>") %>
