@@ -4,7 +4,7 @@
 		<span class="video-partial__title"><%= video.title %></span>
 		<div class="video-partial__meta">
 			<span><%= video.owner.name %></span> •
-			<span><%= video.meta.views %> views</span>
+			<span><%= video.meta.views %> <%= video.meta.views > 1 ? "views" : "view" %></span>
 		</div>
 	</div>
 </a>

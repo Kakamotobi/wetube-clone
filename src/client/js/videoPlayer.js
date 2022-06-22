@@ -25,7 +25,7 @@ const formatTime = (seconds) => {
 
 // Event Callbacks
 // Video
-const handleLoadedData = () => {
+const handleLoadedMetaData = () => {
 	totalTime.innerText = formatTime(Math.floor(video.duration));
 	timeline.max = Math.floor(video.duration);
 };
@@ -55,6 +55,12 @@ const handleMouseLeave = () => {
 	controlsTimeout = setTimeout(hideControls, 3000);
 };
 
+const handleEnded = (evt) => {
+	const { videoId } = videoContainer.dataset;
+
+	fetch(`/api/videos/${videoId}/views`, { method: "POST" });
+};
+
 // Play Button
 const handlePlay = (evt) => {
 	if (video.paused === true) video.play();
@@ -82,12 +88,12 @@ const handleVolumeChange = (evt) => {
 
 	if (video.muted === true) {
 		video.muted = false;
-		muteBtn.innerText = "Mute";
+		muteBtnIcon.classList = "fas fa-volume-up";
 	}
 
 	if (Number(value) === 0) {
 		video.muted = true;
-		muteBtn.innerText = "Unmute";
+		muteBtnIcon.classList = "fas fa-volume-mute";
 	}
 
 	volumeValue = value;
@@ -118,9 +124,10 @@ const handleTimelineChange = (evt) => {
 document.addEventListener("keydown", (evt) => {
 	if (evt.code === "Space") handlePlay();
 });
-video.addEventListener("loadeddata", handleLoadedData);
+video.addEventListener("loadedmetadata", handleLoadedMetaData);
 video.addEventListener("timeupdate", handleTimeUpdate);
 video.addEventListener("click", handlePlay);
+video.addEventListener("ended", handleEnded);
 videoContainer.addEventListener("mousemove", handleMouseMove);
 videoContainer.addEventListener("mouseleave", handleMouseLeave);
 playBtn.addEventListener("click", handlePlay);

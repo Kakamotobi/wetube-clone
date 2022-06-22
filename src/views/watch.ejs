@@ -1,6 +1,6 @@
 <% layout("base.ejs") -%>
 
-<div id="video-container">
+<div id="video-container" data-video-id="<%= video._id %>">
 	<video src="/<%= video.fileUrl %>"></video>
 
 	<div id="video-controls" class="video-controls">
@@ -37,6 +37,7 @@
 </div>
 
 <div>
+	<h2><%= video.title %></h2>
 	<p><%= video.description %></p>
 	<small><%= video.createdAt %></small>
 </div>

@@ -8,6 +8,7 @@ import { sessionMiddleware, localsMiddleware } from "./middlewares.js";
 import rootRouter from "./routers/rootRouter.js";
 import usersRouter from "./routers/usersRouter.js";
 import videosRouter from "./routers/videosRouter.js";
+import apiRouter from "./routers/apiRouter.js";
 
 const app = express();
 
@@ -29,5 +30,6 @@ app.use("/static", express.static("assets"));
 app.use("/", rootRouter);
 app.use("/users", usersRouter);
 app.use("/videos", videosRouter);
+app.use("/api", apiRouter);
 
 export default app;
