@@ -272,6 +272,11 @@ export const view = async (req, res) => {
 			path: "owner",
 			model: "User",
 		},
+		options: {
+			sort: {
+				createdAt: "desc",
+			},
+		},
 	});
 
 	if (!user) {
