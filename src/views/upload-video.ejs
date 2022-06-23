@@ -1,32 +1,36 @@
 <% layout("base.ejs") -%>
 
-<div>
-	<video id="preview"></video>
-	<button id="start-btn">Start Recording</button>
-</div>
+<div class="upload__container">
+	<div class="record__video">
+		<video id="preview"></video>
+		<button id="action-btn">Start Recording</button>
+	</div>
 
-<% if (errMsg) { %>
+	<% if (errMsg) { %>
 	<span><%= errMsg %></span>
 	<% } %>
 
-<form method="POST" enctype="multipart/form-data">
-	<label for="video">Video File</label>
-	<input name="video" id="video" type="file" accept="video/*" required />
-	<input name="title" type="text" placeholder="Title" maxLength="80" required />
-	<input
-		name="description"
-		type="text"
-		placeholder="Description"
-		minlength="20"
-		required
-	/>
-	<input
-		name="hashtags"
-		type="text"
-		placeholder="Hashtags, separated by comma"
-		required
-	/>
-	<button type="submit">Upload Video</button>
-</form>
+	<form method="POST" enctype="multipart/form-data">
+		<label for="video">Video File</label>
+		<input name="video" id="video" type="file" accept="video/*" required />
+		<label for="thumbnail">Thumbnail File</label>
+		<input name="thumbnail" id="thumbnail" type="file" accept="img/*" required />
+		<input name="title" type="text" placeholder="Title" maxLength="80" required />
+		<input
+			name="description"
+			type="text"
+			placeholder="Description"
+			minlength="20"
+			required
+		/>
+		<input
+			name="hashtags"
+			type="text"
+			placeholder="Hashtags, separated by comma"
+			required
+		/>
+		<button type="submit">Upload Video</button>
+	</form>
+</div>
 
 <% block("scripts").append("<script src='/static/js/recorder.js'></script>") %>

@@ -1,10 +1,16 @@
 <a class="video-partial" href="/videos/<%= video._id %>">
-	<div class="video-partial__thumbnail"></div>
+	<div
+		class="video-partial__thumbnail"
+		style="background-image: url('/<%= video.thumbnailUrl %>'); background-size: cover; background-position: center;"
+	></div>
 	<div class="video-partial__data">
 		<span class="video-partial__title"><%= video.title %></span>
 		<div class="video-partial__meta">
 			<span><%= video.owner.name %></span> •
-			<span><%= video.meta.views %> <%= video.meta.views > 1 ? "views" : "view" %></span>
+			<span
+				><%= video.meta.views %> <%= video.meta.views === 1 ? "view" : "views"
+				%></span
+			>
 		</div>
 	</div>
 </a>
