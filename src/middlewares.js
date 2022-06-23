@@ -42,3 +42,11 @@ export const videoUploadMiddleware = multer({
 		fileSize: 30000000,
 	},
 });
+
+export const ffmpegMiddleware = (req, res, next) => {
+	res.set({
+		"Cross-Origin-Embedder-Policy": "require-corp",
+		"Cross-Origin-Opener-Policy": "same-origin",
+	});
+	next();
+};
