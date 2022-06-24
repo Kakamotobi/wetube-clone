@@ -1,5 +1,6 @@
 import express from "express";
 import ejsMate from "ejs-mate";
+import flash from "express-flash";
 import path from "path";
 
 import morgan from "morgan";
@@ -24,6 +25,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(sessionMiddleware);
 
 app.use(localsMiddleware);
+
+app.use(flash()); // enable locals.messages
 
 app.use(ffmpegMiddleware);
 

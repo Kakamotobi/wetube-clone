@@ -15,18 +15,23 @@ export const localsMiddleware = (req, res, next) => {
 	res.locals.siteName = "Wetube";
 	res.locals.isLoggedIn = !!req.session.isLoggedIn;
 	res.locals.loggedInUser = req.session.user ?? {};
-
 	next();
 };
 
 export const protectorMiddleware = (req, res, next) => {
 	if (req.session.isLoggedIn) next();
-	else res.redirect("/login");
+	else {
+		req.flash("error", "You are not logged in.");
+		return res.redirect("/login");
+	}
 };
 
 export const publicOnlyMiddleware = (req, res, next) => {
 	if (!req.session.isLoggedIn) next();
-	else res.redirect("/");
+	else {
+		req.flash("error", "Not authorized");
+		return res.redirect("/");
+	}
 };
 
 export const avatarUploadMiddleware = multer({

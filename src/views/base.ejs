@@ -12,8 +12,20 @@
 		<link rel="stylesheet" href="/static/css/styles.css" />
 	</head>
 	<body>
+		<% if (messages.error) { %>
+			<%- include("partials/message.ejs", { type: "error", text: messages.error }) %>
+		<% }%>
+		<% if (messages.info) { %>
+			<%- include("partials/message.ejs", { type: "info", text: messages.info }) %>
+		<% }%>
+		<% if (messages.success) { %>
+			<%- include("partials/message.ejs", { type: "success", text: messages.success }) %>
+		<% }%>
+
 		<%-include("partials/header.ejs") %>
+
 		<main><%- body -%></main>
+
 		<%- include("partials/footer.ejs") %>
 
 		<script src="/static/js/main.js"></script>

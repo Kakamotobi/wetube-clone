@@ -45,6 +45,7 @@ export const getEdit = async (req, res) => {
 	}
 	// Only allow owner of video to see edit page.
 	if (String(video.owner) !== String(userId)) {
+		req.flash("error", "This is not your video");
 		return res.status(403).redirect("/");
 	}
 	return res.render("edit-video", {
@@ -67,6 +68,7 @@ export const postEdit = async (req, res) => {
 	}
 	// Only allow owner of video to edit video.
 	if (String(video.owner) !== String(userId)) {
+		req.flash("error", "This is not your video");
 		return res.status(403).redirect("/");
 	}
 	await Video.findByIdAndUpdate(videoId, {
@@ -74,6 +76,7 @@ export const postEdit = async (req, res) => {
 		description,
 		hashtags: Video.formatHashtags(hashtags),
 	});
+	req.flash("success", "Video updated");
 	return res.redirect(`/videos/${videoId}`);
 };
 
@@ -90,9 +93,11 @@ export const deleteVideo = async (req, res) => {
 	}
 	// Only allow owner of video to delete video.
 	if (String(video.owner) !== String(userId)) {
+		req.flash("error", "This is not your video");
 		return res.status(403).redirect("/");
 	}
 	await Video.findByIdAndDelete(videoId);
+	req.flash("success", "Video deleted");
 	return res.redirect("/");
 };
 
@@ -126,7 +131,7 @@ export const postUpload = async (req, res) => {
 		const user = await User.findById(userId);
 		user.videos.push(newVideo._id);
 		await user.save();
-
+		req.flash("success", "Video uploaded");
 		return res.redirect("/");
 	} catch (err) {
 		return res.status(400).render("upload-video", {

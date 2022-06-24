@@ -1,0 +1,66 @@
+.message {
+	width: 50px;
+	height: 16px;
+	margin: 0 auto;
+	padding: 10px 20px;
+	position: absolute;
+	top: 10px;
+	left: 0;
+	right: 0;
+	border-radius: 50px;
+	overflow: hidden;
+	text-align: center;
+	transform: scale(0);
+	opacity: 0;
+	animation: 300ms scale-out ease-out forwards,
+		350ms expand 250ms ease-out forwards, 350ms shrink 3500ms ease-out forwards,
+		300ms scale-in 3750ms ease-out forwards;
+	&.error {
+		background-color: tomato;
+		color: white;
+	}
+	&.info {
+		background-color: rgb(221, 221, 35);
+		color: rgb(255, 255, 255);
+	}
+	&.success {
+		background-color: rgb(0, 185, 0);
+		color: white;
+	}
+
+	.message_desc {
+		overflow: hidden;
+	}
+}
+
+@keyframes scale-out {
+	100% {
+		transform: scale(1);
+		opacity: 1;
+	}
+}
+
+@keyframes expand {
+	50% {
+		width: 300px;
+	}
+	100% {
+		width: 250px;
+	}
+}
+
+@keyframes shrink {
+	50% {
+		width: 300px;
+	}
+	100% {
+		width: 0;
+	}
+}
+
+@keyframes scale-in {
+	100% {
+		transform: scale(0);
+		opacity: 1;
+	}
+}

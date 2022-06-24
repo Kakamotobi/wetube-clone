@@ -35,6 +35,7 @@ export const postJoin = async (req, res) => {
 			password,
 			location,
 		});
+		req.flash("info", "Account created successfully");
 		return res.redirect("/login");
 	} catch (err) {
 		return res.status(400).render("join", {
@@ -159,16 +160,19 @@ export const finishGitHubLogin = async (req, res) => {
 			req.session.user = user;
 			return res.redirect("/");
 		} else {
-			// need to set notification (no verified email in user's GitHub)
+			req.flash("error", "You have no verified email on GitHub");
 			return res.redirect("/login");
 		}
 	} else {
+		req.flash("error", "GitHub login failed");
 		return res.redirect("/login");
 	}
 };
 
 export const logout = (req, res) => {
-	req.session.destroy();
+	req.session.user = null;
+	req.session.isLoggedIn = false;
+	req.flash("info", "You're logged out");
 	return res.redirect("/");
 };
 
@@ -197,7 +201,7 @@ export const postEdit = async (req, res) => {
 	if (alreadyExists) {
 		return res.status(400).render("edit-profile", {
 			pageTitle: "Edit Profile",
-			errorMsg: "This username or email is already taken.",
+			errorMsg: "This username or email is already taken",
 		});
 	}
 
@@ -210,7 +214,7 @@ export const postEdit = async (req, res) => {
 
 		// Update session with new user info.
 		req.session.user = updatedUser;
-
+		req.flash("success", "Profile updated");
 		return res.redirect("/users/edit");
 	} catch (err) {
 		return res.status(400).render("edit-profile", {
@@ -221,6 +225,9 @@ export const postEdit = async (req, res) => {
 };
 
 export const getChangePassword = (req, res) => {
+	if (req.session.user.socialOnly === true) {
+		req.flash("error", "You don't have a password registered");
+	}
 	return res.render("change-password", {
 		pageTitle: "Change Password",
 		errorMsg: res.locals.loggedInUser.socialOnly
@@ -260,7 +267,7 @@ export const postChangePassword = async (req, res) => {
 	// Update session with new password hashed.
 	req.session.user.password = user.password;
 
-	// Send notification
+	req.flash("info", "Password changed");
 	return res.redirect("/users/logout");
 };
 
