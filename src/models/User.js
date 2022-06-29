@@ -8,7 +8,7 @@ const userSchema = new mongoose.Schema({
 	password: String,
 	location: String,
 	socialOnly: { type: Boolean, default: false },
-	avatarUrl: { type: String, default: "uploads/avatars/default-avatar.png" },
+	avatarUrl: { type: String, default: "/uploads/avatars/default-avatar.png" },
 	videos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],
 });
 

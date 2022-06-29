@@ -152,7 +152,7 @@ export const finishGitHubLogin = async (req, res) => {
 					password: "",
 					location: userData.location,
 					socialOnly: true,
-					avatarUrl: userData.avater_url,
+					avatarUrl: userData.avatar_url,
 				});
 			}
 			// Log the user in.
