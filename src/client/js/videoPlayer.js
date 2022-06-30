@@ -122,6 +122,7 @@ const handleTimelineChange = (evt) => {
 };
 
 document.addEventListener("keydown", (evt) => {
+	if (evt.target.id === "comment-textarea") return;
 	if (evt.code === "Space") handlePlay();
 });
 video.addEventListener("loadedmetadata", handleLoadedMetaData);

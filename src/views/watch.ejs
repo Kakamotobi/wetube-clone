@@ -36,23 +36,50 @@
 	</div>
 </div>
 
-<div>
-	<h2><%= video.title %></h2>
-	<p><%= video.description %></p>
-	<small><%= video.createdAt %></small>
-</div>
-
-<div>
-	<small
-		>Uploaded by
-		<a href="/users/<%= video.owner._id%>"><%= video.owner.name %></a>
+<div class="video__data">
+	<p class="video__title"><%= video.title %></p>
+	<small class="video__owner">Uploaded by 
+		<a href="/users/<%= video.owner._id %>"><%= video.owner.name %></a>
 	</small>
+	<small class="video__createdAt">
+		<%= new Date(video.createdAt).toLocaleDateString("en-US", {weekday: "long", year: "numeric", month: "long", day: "numeric"}) %>
+	</small>
+	<% if (String(video.owner._id) === String(loggedInUser._id)) { %>
+	<div class="video__owner-manipulations">
+		<a class="video__owner-manipulation" href="<%= video.id %>/edit">Edit Video</a>
+		<a class="video__owner-manipulation" href="<%= video.id %>/delete">Delete Video</a>
+	</div>
+	<% } %>
 </div>
 
-<% if (String(video.owner._id) === String(loggedInUser._id)) { %>
-<a href="<%= video.id %>/edit">Edit Video</a>
-<br />
-<a href="<%= video.id %>/delete">Delete Video</a>
+<% if (isLoggedIn) { %>
+<div class="video__add-comments">
+	<form class="video__comment-form" id="comment-form">
+		<textarea
+			id="comment-textarea"
+			placeholder="Add a comment..."
+			cols="30"
+			rows="10"
+		></textarea>
+		<button type="submit">Add Comment</button>
+	</form>
+</div>
 <% } %>
 
+<div class="video__comments">
+	<ul>
+		<% for (let comment of video.comments.reverse()) { %>
+		<li class="video__comment" data-comment-id="<%= comment._id%>">
+			<i class="fas fa-comment"></i>
+			<span><%= comment.text %></span>
+			<!-- If owner of the comment, show delete button -->
+			<% if (String(comment.owner) === String(loggedInUser._id)) { %>
+			<i class="fas fa-trash video__comment-delete"></i>
+			<% } %>
+		</li>
+		<% } %>
+	</ul>
+</div>
+
 <% block("scripts").append("<script src='/static/js/videoPlayer.js'></script>") %>
+<% block("scripts").append("<script src='/static/js/commentSection.js'></script>") %>
