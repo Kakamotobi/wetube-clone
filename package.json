@@ -4,9 +4,11 @@
 	"description": "",
 	"scripts": {
 		"start": "node build/init.js",
+		"build": "npm run build:server && npm run build:assets",
+		"build:server": "babel src -d build",
+		"build:assets": "webpack --mode=production",
 		"dev:server": "nodemon",
-		"dev:assets": "webpack",
-		"build:server": "babel src -d build"
+		"dev:assets": "webpack --mode=development --watch"
 	},
 	"repository": {
 		"type": "git",
