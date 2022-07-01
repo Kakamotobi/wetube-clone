@@ -11,7 +11,7 @@
 			<li><a href="/users/logout">Logout</a></li>
 			<li>
 				<a href="/users/<%= loggedInUser._id %>">
-					<img class="header__avatar" crossorigin="anonymous" src="<%= loggedInUser.avatarUrl %>" alt="Profile Picture" />
+					<img class="header__avatar" src="<%= loggedInUser.avatarUrl %>" alt="Profile Picture" crossorigin />
 				</a>
 			</li>
 			<% } else { %>

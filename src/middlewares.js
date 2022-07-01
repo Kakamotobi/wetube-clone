@@ -1,6 +1,22 @@
 import session from "express-session";
 import MongoStore from "connect-mongo";
 import multer from "multer";
+import multerS3 from "multer-s3";
+const { S3Client } = require("@aws-sdk/client-s3");
+
+const s3 = new S3Client({
+	credentials: {
+		accessKeyId: process.env.AWS_ACCESS_KEY_ID,
+		secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
+	},
+	region: process.env.AWS_S3_REGION,
+});
+
+const multerS3Uploader = multerS3({
+	s3: s3,
+	bucket: "wetube-project-clone",
+	acl: "public-read",
+});
 
 // Create session, put session ID in cookie.
 export const sessionMiddleware = session({
@@ -35,6 +51,7 @@ export const publicOnlyMiddleware = (req, res, next) => {
 };
 
 export const avatarUploadMiddleware = multer({
+	storage: multerS3Uploader,
 	dest: "uploads/avatars/",
 	limits: {
 		fileSize: 3000000,
@@ -42,6 +59,7 @@ export const avatarUploadMiddleware = multer({
 });
 
 export const videoUploadMiddleware = multer({
+	storage: multerS3Uploader,
 	dest: "uploads/videos/",
 	limits: {
 		fileSize: 30000000,

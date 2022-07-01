@@ -8,7 +8,11 @@ const userSchema = new mongoose.Schema({
 	password: String,
 	location: String,
 	socialOnly: { type: Boolean, default: false },
-	avatarUrl: { type: String, default: "/uploads/avatars/default-avatar.png" },
+	avatarUrl: {
+		type: String,
+		default:
+			"https://wetube-project-clone.s3.ap-northeast-2.amazonaws.com/default-avatar.png",
+	},
 	videos: [{ type: mongoose.Schema.Types.ObjectId, ref: "Video" }],
 });
 

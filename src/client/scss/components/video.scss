@@ -2,6 +2,8 @@
 	.video-partial__thumbnail {
 		height: 140px;
 		width: 100%;
+		background-size: cover;
+		background-position: center;
 	}
 
 	.video-partial__data {
@@ -12,7 +14,7 @@
 			font-size: 18px;
 		}
 		.video-partial__meta {
-      margin-top: 5px;
+			margin-top: 5px;
 			font-size: 12px;
 		}
 	}
