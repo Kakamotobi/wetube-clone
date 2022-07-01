@@ -1,7 +1,7 @@
 import User from "../models/User.js";
 import fetch from "node-fetch";
 import bcrypt from "bcrypt";
-import { s3DeleteObject } from "../../libs/s3Client.js";
+import { s3DeleteObject } from "../../libs/s3ClientCommands.js";
 
 export const getJoin = (req, res) => {
 	return res.render("join.ejs", { pageTitle: "Join", errorMsg: null });
@@ -218,9 +218,13 @@ export const postEdit = async (req, res) => {
 			location,
 		};
 
-		const userBeforeUpdate = await User.findByIdAndUpdate(_id, updatedContents, {
-			new: false,
-		});
+		const userBeforeUpdate = await User.findByIdAndUpdate(
+			_id,
+			updatedContents,
+			{
+				new: false,
+			}
+		);
 
 		// Update S3 - if there is a new file.
 		if (file && isHeroku) {

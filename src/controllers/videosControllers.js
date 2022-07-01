@@ -1,7 +1,7 @@
 import Video from "../models/Video.js";
 import User from "../models/User.js";
 import Comment from "../models/Comment.js";
-import { s3DeleteObjects } from "../../libs/s3Client.js";
+import { s3DeleteObjects } from "../../libs/s3ClientCommands.js";
 
 export const home = async (req, res) => {
 	const videos = await Video.find({})
