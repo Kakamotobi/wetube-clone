@@ -16,15 +16,21 @@ const isHeroku = process.env.NODE_ENV === "production";
 
 const multerS3ImageUploader = multerS3({
 	s3: s3,
-	bucket: "wetube-project-clone/images",
+	bucket: "wetube-project-clone",
 	acl: "public-read",
+	key: function (req, file, cb) {
+		cb(null, "images/" + file.originalname);
+	},
 });
 
 const multerS3VideoUploader = multerS3({
 	s3: s3,
-	bucket: "wetube-project-clone/videos",
+	bucket: "wetube-project-clone",
 	acl: "public-read",
-})
+	key: function (req, file, cb) {
+		cb(null, "videos/" + file.originalname);
+	},
+});
 
 // Create session, put session ID in cookie.
 export const sessionMiddleware = session({
