@@ -207,8 +207,6 @@ export const postEdit = async (req, res) => {
 		});
 	}
 
-	(isHeroku ? file?.location : file?.path) ?? avatarUrl;
-
 	try {
 		const updatedUser = await User.findByIdAndUpdate(
 			_id,
