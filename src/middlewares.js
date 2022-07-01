@@ -62,7 +62,7 @@ export const videoUploadMiddleware = multer({
 	storage: multerS3Uploader,
 	dest: "uploads/videos/",
 	limits: {
-		fileSize: 30000000,
+		fileSize: 50000000,
 	},
 });
 
