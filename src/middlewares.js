@@ -12,11 +12,19 @@ const s3 = new S3Client({
 	region: process.env.AWS_S3_REGION,
 });
 
-const multerS3Uploader = multerS3({
+const isHeroku = process.env.NODE_ENV === "production";
+
+const multerS3ImageUploader = multerS3({
 	s3: s3,
-	bucket: "wetube-project-clone",
+	bucket: "wetube-project-clone/images",
 	acl: "public-read",
 });
+
+const multerS3VideoUploader = multerS3({
+	s3: s3,
+	bucket: "wetube-project-clone/videos",
+	acl: "public-read",
+})
 
 // Create session, put session ID in cookie.
 export const sessionMiddleware = session({
@@ -31,6 +39,7 @@ export const localsMiddleware = (req, res, next) => {
 	res.locals.siteName = "Wetube";
 	res.locals.isLoggedIn = !!req.session.isLoggedIn;
 	res.locals.loggedInUser = req.session.user ?? {};
+	res.locals.isHeroku = isHeroku;
 	next();
 };
 
@@ -51,7 +60,7 @@ export const publicOnlyMiddleware = (req, res, next) => {
 };
 
 export const avatarUploadMiddleware = multer({
-	storage: multerS3Uploader,
+	storage: isHeroku && multerS3ImageUploader,
 	dest: "uploads/avatars/",
 	limits: {
 		fileSize: 3000000,
@@ -59,7 +68,7 @@ export const avatarUploadMiddleware = multer({
 });
 
 export const videoUploadMiddleware = multer({
-	storage: multerS3Uploader,
+	storage: isHeroku && multerS3VideoUploader,
 	dest: "uploads/videos/",
 	limits: {
 		fileSize: 50000000,

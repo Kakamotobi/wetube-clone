@@ -192,6 +192,8 @@ export const postEdit = async (req, res) => {
 		file,
 	} = req;
 
+	const isHeroku = process.env.NODE_ENV === "production";
+
 	// Find out if a different user already has the username or email.
 	const alreadyExists = await User.exists({
 		_id: { $ne: { _id } },
@@ -205,10 +207,18 @@ export const postEdit = async (req, res) => {
 		});
 	}
 
+	(isHeroku ? file?.location : file?.path) ?? avatarUrl;
+
 	try {
 		const updatedUser = await User.findByIdAndUpdate(
 			_id,
-			{ avatarUrl: file?.location ?? avatarUrl, name, email, username, location },
+			{
+				avatarUrl: file ? (isHeroku ? file.location : file.path) : avatarUrl,
+				name,
+				email,
+				username,
+				location,
+			},
 			{ new: true }
 		);
 

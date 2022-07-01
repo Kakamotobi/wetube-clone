@@ -1,7 +1,7 @@
 <% layout("base.ejs") -%>
 
 <div id="video-container" data-video-id="<%= video._id %>">
-	<video src="<%= video.fileUrl %>" crossorigin></video>
+	<video src="<%= isHeroku ? video.fileUrl : `/${video.fileUrl}` %>" crossorigin></video>
 
 	<div id="video-controls" class="video-controls">
 		<div class="video-controls__play">
