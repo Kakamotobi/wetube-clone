@@ -5,10 +5,15 @@ import { s3 } from "../../libs/s3Client.js";
 import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 
 // S3 Delete Object
-const s3DeleteObject = async (key) => {
+const s3DeleteObject = async (url) => {
 	try {
+		// Extract the key from the previous avatarUrl --> delete it from S3.
+		const re = new RegExp(/(?<=\.com\/)(.*)/g);
 		await s3.send(
-			new DeleteObjectCommand({ Bucket: "wetube-project-clone", Key: key })
+			new DeleteObjectCommand({
+				Bucket: "wetube-project-clone",
+				Key: url.match(re)[0],
+			})
 		);
 	} catch (err) {
 		console.log(err);
@@ -241,10 +246,7 @@ export const postEdit = async (req, res) => {
 
 		// Update S3 - if there is a new file.
 		if (file && isHeroku) {
-			// Extract the key from the previous avatarUrl --> delete it from S3.
-			const re = new RegExp(/(?<=\.com)(.*)/g);
-			const key = userBeforeUpdate.avatarUrl.match(re)[0];
-			await s3DeleteObject(key);
+			await s3DeleteObject(userBeforeUpdate.avatarUrl);
 		}
 
 		// Update session with updated user info.

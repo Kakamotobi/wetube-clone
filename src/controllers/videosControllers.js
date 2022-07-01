@@ -5,11 +5,13 @@ import { s3 } from "../../libs/s3Client.js";
 import { DeleteObjectsCommand } from "@aws-sdk/client-s3";
 
 // S3 Delete Objects
-const s3DeleteObjects = async (keys) => {
+const s3DeleteObjects = async (urls) => {
 	try {
+		// Extract the key from the previous url --> delete it from S3.
 		const objects = [];
-		for (let key of keys) {
-			objects.push({ Key: key });
+		const re = new RegExp(/(?<=\.com\/)(.*)/g);
+		for (let url of urls) {
+			objects.push({ Key: url.match(re)[0] });
 		}
 
 		await s3.send(
