@@ -2,15 +2,7 @@ import session from "express-session";
 import MongoStore from "connect-mongo";
 import multer from "multer";
 import multerS3 from "multer-s3";
-const { S3Client } = require("@aws-sdk/client-s3");
-
-const s3 = new S3Client({
-	credentials: {
-		accessKeyId: process.env.AWS_ACCESS_KEY_ID,
-		secretAccessKey: process.env.AWS_SECRET_ACCESS_KEY,
-	},
-	region: process.env.AWS_S3_REGION,
-});
+import { s3 } from "../libs/s3Client.js";
 
 const isHeroku = process.env.NODE_ENV === "production";
 
@@ -19,7 +11,7 @@ const multerS3ImageUploader = multerS3({
 	bucket: "wetube-project-clone",
 	acl: "public-read",
 	key: function (req, file, cb) {
-		cb(null, "images/" + file.originalname);
+		cb(null, "images/" + loggedInUser.username + "_" + file.originalname);
 	},
 });
 

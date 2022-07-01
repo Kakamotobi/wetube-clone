@@ -1,6 +1,7 @@
 import Video from "../models/Video.js";
 import User from "../models/User.js";
 import Comment from "../models/Comment.js";
+import { s3DeleteObjects } from "../../libs/s3Client.js";
 
 export const home = async (req, res) => {
 	const videos = await Video.find({})
@@ -97,7 +98,15 @@ export const deleteVideo = async (req, res) => {
 		req.flash("error", "This is not your video");
 		return res.status(403).redirect("/");
 	}
+	const isHeroku = process.env.NODE_ENV === "production";
+	// Delete video and thumbnail from S3.
+	if (isHeroku) {
+		await s3DeleteObjects([video.fileUrl, video.thumbnailUrl]);
+	}
+
+	// Delete from DB.
 	await Video.findByIdAndDelete(videoId);
+
 	req.flash("success", "Video deleted");
 	return res.status(200).redirect("/");
 };

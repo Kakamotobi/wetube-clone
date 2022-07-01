@@ -1,6 +1,7 @@
 import User from "../models/User.js";
 import fetch from "node-fetch";
 import bcrypt from "bcrypt";
+import { s3DeleteObject } from "../../libs/s3Client.js";
 
 export const getJoin = (req, res) => {
 	return res.render("join.ejs", { pageTitle: "Join", errorMsg: null });
@@ -208,20 +209,29 @@ export const postEdit = async (req, res) => {
 	}
 
 	try {
-		const updatedUser = await User.findByIdAndUpdate(
-			_id,
-			{
-				avatarUrl: file ? (isHeroku ? file.location : file.path) : avatarUrl,
-				name,
-				email,
-				username,
-				location,
-			},
-			{ new: true }
-		);
+		// Update DB.
+		const updatedContents = {
+			avatarUrl: file ? (isHeroku ? file.location : file.path) : avatarUrl,
+			name,
+			email,
+			username,
+			location,
+		};
 
-		// Update session with new user info.
-		req.session.user = updatedUser;
+		const userBeforeUpdate = await User.findByIdAndUpdate(_id, updatedContents, {
+			new: false,
+		});
+
+		// Update S3 - if there is a new file.
+		if (file && isHeroku) {
+			// Extract the key from the previous avatarUrl --> delete it from S3.
+			const re = new RegExp(/(?<=\.com)(.*)/g);
+			const key = userBeforeUpdate.avatarUrl.match(re)[0];
+			await s3DeleteObject(key);
+		}
+
+		// Update session with updated user info.
+		req.session.user = { ...req.session.user, ...updatedContents };
 		req.flash("success", "Profile updated");
 		return res.redirect("/users/edit");
 	} catch (err) {
