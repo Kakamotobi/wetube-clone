@@ -1,8 +1,21 @@
 import User from "../models/User.js";
 import fetch from "node-fetch";
 import bcrypt from "bcrypt";
-import { s3DeleteObject } from "../../libs/s3ClientCommands.js";
+import { s3 } from "../../libs/s3Client.js";
+import { DeleteObjectCommand } from "@aws-sdk/client-s3";
 
+// S3 Delete Object
+const s3DeleteObject = async (key) => {
+	try {
+		await s3.send(
+			new DeleteObjectCommand({ Bucket: "wetube-project-clone", Key: key })
+		);
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+// Controllers
 export const getJoin = (req, res) => {
 	return res.render("join.ejs", { pageTitle: "Join", errorMsg: null });
 };

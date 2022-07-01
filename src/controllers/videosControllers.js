@@ -1,8 +1,31 @@
 import Video from "../models/Video.js";
 import User from "../models/User.js";
 import Comment from "../models/Comment.js";
-import { s3DeleteObjects } from "../../libs/s3ClientCommands.js";
+import { s3 } from "../../libs/s3Client.js";
+import { DeleteObjectsCommand } from "@aws-sdk/client-s3";
 
+// S3 Delete Objects
+const s3DeleteObjects = async (keys) => {
+	try {
+		const objects = [];
+		for (let key of keys) {
+			objects.push({ Key: key });
+		}
+
+		await s3.send(
+			new DeleteObjectsCommand({
+				Bucket: "wetube-project-clone",
+				Delete: {
+					Objects: objects,
+				},
+			})
+		);
+	} catch (err) {
+		console.log(err);
+	}
+};
+
+// Controllers
 export const home = async (req, res) => {
 	const videos = await Video.find({})
 		.sort({ createdAt: "desc" })
