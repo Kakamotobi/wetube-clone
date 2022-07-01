@@ -11,10 +11,7 @@ const multerS3ImageUploader = multerS3({
 	bucket: "wetube-project-clone",
 	acl: "public-read",
 	key: function (req, file, cb) {
-		cb(
-			null,
-			"images/" + res.locals.loggedInUser.username + "_" + file.originalname
-		);
+		cb(null, "images/" + req.session.user.username + "_" + file.originalname);
 	},
 });
 
@@ -23,10 +20,7 @@ const multerS3VideoUploader = multerS3({
 	bucket: "wetube-project-clone",
 	acl: "public-read",
 	key: function (req, file, cb) {
-		cb(
-			null,
-			"videos/" + res.locals.loggedInUser.username + "_" + file.originalname
-		);
+		cb(null, "videos/" + req.session.user.username + "_" + file.originalname);
 	},
 });
 
