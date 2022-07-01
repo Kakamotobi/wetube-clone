@@ -25,10 +25,11 @@ const formatTime = (seconds) => {
 
 // Event Callbacks
 // Video
-const handleLoadedMetaData = () => {
+const handleCanplay = () => {
 	totalTime.innerText = formatTime(Math.floor(video.duration));
 	timeline.max = Math.floor(video.duration);
 };
+handleCanplay();
 
 const handleTimeUpdate = () => {
 	currentTime.innerText = formatTime(Math.floor(video.currentTime));
@@ -125,7 +126,7 @@ document.addEventListener("keydown", (evt) => {
 	if (evt.target.id === "comment-textarea") return;
 	if (evt.code === "Space") handlePlay();
 });
-video.addEventListener("loadedmetadata", handleLoadedMetaData);
+video.addEventListener("canplay", handleCanplay);
 video.addEventListener("timeupdate", handleTimeUpdate);
 video.addEventListener("click", handlePlay);
 video.addEventListener("ended", handleEnded);
