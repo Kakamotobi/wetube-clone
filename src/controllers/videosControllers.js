@@ -11,7 +11,8 @@ const s3DeleteObjects = async (urls) => {
 		const objects = [];
 		const re = new RegExp(/(?<=\.com\/)(.*)/g);
 		for (let url of urls) {
-			objects.push({ Key: url.match(re)[0] });
+			const parsedKey = url.match(re)[0].replace(/\%2F/g, "/");
+			objects.push({ Key: parsedKey });
 		}
 
 		await s3.send(
